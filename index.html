@@ -12,11 +12,15 @@
     <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
     <script type='text/babel'>
       const rootElement = document.getElementById('root');
-      const Greeting = props => <div>{props.msg}</div>;
+      const Greeting = props => <div>{props.children}</div>;
       const element = (
         <div className='container'>
-          <Greeting msg="Hello world"></Greeting>
-          <Greeting msg="from custom elements"></Greeting>
+          <Greeting>
+            Hello world
+            <Greeting>
+              from nested elements
+            </Greeting>
+          </Greeting>
         </div>
       );
       ReactDOM.render(element, rootElement);
