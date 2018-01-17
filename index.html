@@ -12,8 +12,9 @@
     <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
     <script type='text/babel'>
       const rootElement = document.getElementById('root');
-      const greeting = 'Hello World!! via JSX';
-      const element = <div className='container'>{greeting}</div>
+      const greeting = 'Hello World!! via Interpolation';
+      const myClassName = 'container';
+      const element = <div className={myClassName}>{greeting}</div>
       ReactDOM.render(element, rootElement);
     </script>
   </body>
