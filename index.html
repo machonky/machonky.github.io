@@ -6,24 +6,22 @@
     <title>Reacto-matic</title>
   </head>
   <body>
-    <div id='root'></div>
+    <div id='root'></div> <!-- This will be the entry point of our react-o-matic -->
+    
+    <!-- <script src="https://unpkg.com/react@16.2.0/umd/react.production.min.js"></script> -->
+    <!-- <script src="https://unpkg.com/react-dom@16.2.0/umd/react-dom.production.min.js"></script> -->
     <script src="https://unpkg.com/react@16.2.0/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@16.2.0/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
     <script type='text/babel'>
-      const rootElement = document.getElementById('root');
-      const Greeting = props => <div>{props.children}</div>;
-      const element = (
-        <div className='container'>
-          <Greeting>
-            Hello world
-            <Greeting>
-              from nested elements
-            </Greeting>
-          </Greeting>
-        </div>
-      );
-      ReactDOM.render(element, rootElement);
+
+      function tick() {
+        const time = new Date().toLocaleTimeString();
+        const element = <div>It is {time}</div>;
+        ReactDOM.render(element, document.getElementById('root'));
+      }
+      tick();
+      setInterval(tick, 1000);
     </script>
   </body>
 </html>
