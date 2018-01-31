@@ -1,0 +1,2 @@
+webpackJsonp([0xec29d2400bee],{404:function(t,e){t.exports={data:{site:{siteMetadata:{title:"macrobert.com"}},allMarkdownRemark:{totalCount:1,edges:[{node:{fields:{slug:"/linux-subsystem-on-win10/"},frontmatter:{title:"Windows 10 has a Linux Subsystem"}}}]}},pathContext:{tag:"windows 10"}}}});
+//# sourceMappingURL=path---tags-windows-10-b82d340caf90169297a6.js.map

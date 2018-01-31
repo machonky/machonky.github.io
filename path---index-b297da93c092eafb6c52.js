@@ -1,0 +1,2 @@
+webpackJsonp([0x81b8806e4260],{396:function(t,e){t.exports={data:{site:{siteMetadata:{title:"macrobert.com",author:"Martin",homeCity:"Internationally"}},allMarkdownRemark:{edges:[{node:{fields:{slug:"/linux-subsystem-on-win10/"},frontmatter:{title:"Windows 10 has a Linux Subsystem"}}},{node:{fields:{slug:"/convert-to-gatsby/"},frontmatter:{title:"Migrating to Gatsby JS"}}},{node:{fields:{slug:"/welcome/"},frontmatter:{title:"Welcome"}}}]}},pathContext:{}}}});
+//# sourceMappingURL=path---index-b297da93c092eafb6c52.js.map

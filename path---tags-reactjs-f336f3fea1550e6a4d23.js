@@ -1,2 +1,2 @@
-webpackJsonp([68988291663891],{395:function(t,a){t.exports={data:{site:{siteMetadata:{title:"macrobert.com"}},allMarkdownRemark:{totalCount:1,edges:[{node:{fields:{slug:"/convert-to-gatsby/"},frontmatter:{title:"Migrating to Gatsby JS"}}}]}},pathContext:{tag:"reactjs"}}}});
+webpackJsonp([68988291663891],{401:function(t,a){t.exports={data:{site:{siteMetadata:{title:"macrobert.com"}},allMarkdownRemark:{totalCount:1,edges:[{node:{fields:{slug:"/convert-to-gatsby/"},frontmatter:{title:"Migrating to Gatsby JS"}}}]}},pathContext:{tag:"reactjs"}}}});
 //# sourceMappingURL=path---tags-reactjs-f336f3fea1550e6a4d23.js.map

@@ -9,8 +9,8 @@
       "component---src-pages-index-js-a62a12f2b093934e17e9.js.map"
     ],
     "path---tags": [
-      "path---tags-90c8f87a84b2b63fe9bf.js",
-      "path---tags-90c8f87a84b2b63fe9bf.js.map"
+      "path---tags-9089bbc713f66a67791d.js",
+      "path---tags-9089bbc713f66a67791d.js.map"
     ],
     "path---": [
       "path----557518bd178906f8d58a.js",
@@ -41,12 +41,24 @@
       "path---tags-gatsbyjs-ba24bf12076dc3858f6b.js.map"
     ],
     "component---src-layouts-index-js": [
-      "component---src-layouts-index-js-410e37e5afaf3a5c59d6.js",
-      "component---src-layouts-index-js-410e37e5afaf3a5c59d6.js.map"
+      "component---src-layouts-index-js-8d6cf0f1ac3535a5b13e.js",
+      "component---src-layouts-index-js-8d6cf0f1ac3535a5b13e.js.map"
+    ],
+    "path---tags-linux": [
+      "path---tags-linux-f3d6a43cc874604cea27.js",
+      "path---tags-linux-f3d6a43cc874604cea27.js.map"
+    ],
+    "path---tags-subsystem": [
+      "path---tags-subsystem-28f6355ba7d99aa794af.js",
+      "path---tags-subsystem-28f6355ba7d99aa794af.js.map"
     ],
     "path---index": [
-      "path---index-c2b7431c6d92eb6989ce.js",
-      "path---index-c2b7431c6d92eb6989ce.js.map"
+      "path---index-b297da93c092eafb6c52.js",
+      "path---index-b297da93c092eafb6c52.js.map"
+    ],
+    "path---linux-subsystem-on-win-10": [
+      "path---linux-subsystem-on-win-10-9818af3bfa96afe089e2.js",
+      "path---linux-subsystem-on-win-10-9818af3bfa96afe089e2.js.map"
     ],
     "component---src-pages-404-js": [
       "component---src-pages-404-js-0e19ea7873fcecc0a8e6.js",
@@ -69,14 +81,18 @@
       "path---offline-plugin-app-shell-fallback-a0e39f21c11f6a62c5ab.js.map"
     ],
     "app": [
-      "app-e71ec6ac9a7a2c3545d8.js",
+      "app-1ee1759b90c8911601ab.js",
       "build-js-styles.css",
-      "app-e71ec6ac9a7a2c3545d8.js.map",
+      "app-1ee1759b90c8911601ab.js.map",
       "build-js-styles.css.map"
     ],
     "path---404": [
       "path---404-a0e39f21c11f6a62c5ab.js",
       "path---404-a0e39f21c11f6a62c5ab.js.map"
+    ],
+    "path---tags-windows-10": [
+      "path---tags-windows-10-b82d340caf90169297a6.js",
+      "path---tags-windows-10-b82d340caf90169297a6.js.map"
     ],
     "path---welcome": [
       "path---welcome-b98f4628a1280f90e8a3.js",

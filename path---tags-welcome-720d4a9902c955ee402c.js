@@ -1,2 +1,2 @@
-webpackJsonp([79413405028261],{396:function(t,e){t.exports={data:{site:{siteMetadata:{title:"macrobert.com"}},allMarkdownRemark:{totalCount:1,edges:[{node:{fields:{slug:"/welcome/"},frontmatter:{title:"Welcome"}}}]}},pathContext:{tag:"welcome"}}}});
+webpackJsonp([79413405028261],{403:function(t,e){t.exports={data:{site:{siteMetadata:{title:"macrobert.com"}},allMarkdownRemark:{totalCount:1,edges:[{node:{fields:{slug:"/welcome/"},frontmatter:{title:"Welcome"}}}]}},pathContext:{tag:"welcome"}}}});
 //# sourceMappingURL=path---tags-welcome-720d4a9902c955ee402c.js.map
