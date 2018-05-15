@@ -1,2 +1,0 @@
-webpackJsonp([0x81b8806e4260],{392:function(t,e){t.exports={data:{site:{siteMetadata:{title:"macrobert.com",author:"Martin",homeCity:"Internationally"}},allMarkdownRemark:{edges:[{node:{fields:{slug:"/convert-to-gatsby/"},frontmatter:{title:"Migrating to Gatsby JS"}}},{node:{fields:{slug:"/welcome/"},frontmatter:{title:"Welcome"}}}]}},pathContext:{}}}});
-//# sourceMappingURL=path---index-c2b7431c6d92eb6989ce.js.map

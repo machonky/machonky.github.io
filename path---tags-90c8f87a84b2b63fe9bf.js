@@ -1,2 +1,0 @@
-webpackJsonp([55702396619907],{397:function(t,a){t.exports={data:{site:{siteMetadata:{title:"macrobert.com"}},allMarkdownRemark:{group:[{fieldValue:"gatsbyjs",totalCount:1},{fieldValue:"reactjs",totalCount:1},{fieldValue:"welcome",totalCount:1}]}},pathContext:{}}}});
-//# sourceMappingURL=path---tags-90c8f87a84b2b63fe9bf.js.map
