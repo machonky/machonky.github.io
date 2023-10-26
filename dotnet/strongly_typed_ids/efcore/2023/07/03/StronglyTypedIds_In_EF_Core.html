@@ -49,6 +49,9 @@
   <div class="post-content e-content" itemprop="articleBody">
     <p>This article is a continuation of a <a href="/dotnet/strongly_typed_ids/2023/06/30/StronglyTypedIds.html">previous article</a> exploring the use of Strongly Typed Ids in .NET Entity Framework Core.</p>
 
+<p>In this article we’ll explore how to fully intgrate Strongly Typed Ids into an EF Core application. We’ll intentionally work through a non-trivial solution to ensure that issues like code-maintainability and scalability are also addressed so that 
+the EF Core framework treats Strongly Typed Ids as first class citizens in an application, transparently converting and persisting data, where a developer merely has to declare the existence of a type.</p>
+
 <p>When developing applications with Entity Framework Core (EF Core), the usage of primary keys is a common practice, especially when defining your model entities. Often, these keys are simple types like <code class="language-plaintext highlighter-rouge">int</code>, <code class="language-plaintext highlighter-rouge">long</code>, or <code class="language-plaintext highlighter-rouge">Guid</code>. However, there is another approach that can provide more clarity and safety to your code: Strongly Typed IDs.</p>
 
 <p>A Strongly Typed ID is a wrapper around a simple value, such as an integer or a GUID, that gives it a specific meaning. For example, instead of having a method like <code class="language-plaintext highlighter-rouge">GetOrder(int orderId)</code>, you would have <code class="language-plaintext highlighter-rouge">GetOrder(OrderId orderId)</code>, where <code class="language-plaintext highlighter-rouge">OrderId</code> is a struct or a record that encapsulates the integer ID.</p>
