@@ -1,4 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://blog.macrobert.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.macrobert.com/" rel="alternate" type="text/html" /><updated>2023-10-26T14:54:51+08:00</updated><id>https://blog.macrobert.com/feed.xml</id><title type="html">macrobert.com</title><subtitle>Martin lives and works Internationally building really useful things.</subtitle><entry><title type="html">Strongly Typed Ids in Entity Framework Core (2/N)</title><link href="https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core.html" rel="alternate" type="text/html" title="Strongly Typed Ids in Entity Framework Core (2/N)" /><published>2023-07-03T12:00:00+08:00</published><updated>2023-07-03T12:00:00+08:00</updated><id>https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core</id><content type="html" xml:base="https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core.html"><![CDATA[<p>This article is a continuation of a <a href="/dotnet/strongly_typed_ids/2023/06/30/StronglyTypedIds.html">previous article</a> exploring the use of Strongly Typed Ids in .NET Entity Framework Core.</p>
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Strongly Typed Ids in Entity Framework Core (2/N) | macrobert.com</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Strongly Typed Ids in Entity Framework Core (2/N)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This article is a continuation of a previous article exploring the use of Strongly Typed Ids in .NET Entity Framework Core." />
+<meta property="og:description" content="This article is a continuation of a previous article exploring the use of Strongly Typed Ids in .NET Entity Framework Core." />
+<link rel="canonical" href="https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core.html" />
+<meta property="og:url" content="https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core.html" />
+<meta property="og:site_name" content="macrobert.com" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-07-03T12:00:00+08:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Strongly Typed Ids in Entity Framework Core (2/N)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-07-03T12:00:00+08:00","datePublished":"2023-07-03T12:00:00+08:00","description":"This article is a continuation of a previous article exploring the use of Strongly Typed Ids in .NET Entity Framework Core.","headline":"Strongly Typed Ids in Entity Framework Core (2/N)","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core.html"},"url":"https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://blog.macrobert.com/feed.xml" title="macrobert.com" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">macrobert.com</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Strongly Typed Ids in Entity Framework Core (2/N)</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2023-07-03T12:00:00+08:00" itemprop="datePublished">Jul 3, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>This article is a continuation of a <a href="/dotnet/strongly_typed_ids/2023/06/30/StronglyTypedIds.html">previous article</a> exploring the use of Strongly Typed Ids in .NET Entity Framework Core.</p>
 
 <p>When developing applications with Entity Framework Core (EF Core), the usage of primary keys is a common practice, especially when defining your model entities. Often, these keys are simple types like <code class="language-plaintext highlighter-rouge">int</code>, <code class="language-plaintext highlighter-rouge">long</code>, or <code class="language-plaintext highlighter-rouge">Guid</code>. However, there is another approach that can provide more clarity and safety to your code: Strongly Typed IDs.</p>
 
@@ -272,109 +321,36 @@ The Configuration code becomes:</p>
   <li>as well as the automatic implementation of conversions to suit a DB Provider.</li>
 </ul>
 
-<p>Casting aside performance considerations, these three implementation details ensure a trouble free and scalable solution to the use of Strongly Typed Ids within an EF Core application.</p>]]></content><author><name></name></author><category term="dotnet" /><category term="strongly_typed_ids" /><category term="efcore" /><summary type="html"><![CDATA[This article is a continuation of a previous article exploring the use of Strongly Typed Ids in .NET Entity Framework Core.]]></summary></entry><entry><title type="html">Strongly Typed Ids (1/N)</title><link href="https://blog.macrobert.com/dotnet/strongly_typed_ids/2023/06/30/StronglyTypedIds.html" rel="alternate" type="text/html" title="Strongly Typed Ids (1/N)" /><published>2023-06-30T12:00:00+08:00</published><updated>2023-06-30T12:00:00+08:00</updated><id>https://blog.macrobert.com/dotnet/strongly_typed_ids/2023/06/30/StronglyTypedIds</id><content type="html" xml:base="https://blog.macrobert.com/dotnet/strongly_typed_ids/2023/06/30/StronglyTypedIds.html"><![CDATA[<p>While studying Domain Driven Design and software architecture, I’ve seen strong advocacy for the use of Strongly-Typed-Ids instead of the traditional use of strings, guids and integers with the aim of preventing ‘Primitive Obsession’ and the ensuing errors associated with this behaviour.</p>
+<p>Casting aside performance considerations, these three implementation details ensure a trouble free and scalable solution to the use of Strongly Typed Ids within an EF Core application.</p>
 
-<p>‘Primitive Obsession’ is a term coined by <strong><em>Martin Fowler</em></strong>, a prominent software developer and author. The term is used in software development to describe a scenario where developers use primitive data types to represent domain ideas.</p>
+  </div><a class="u-url" href="/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core.html" hidden></a>
+</article>
 
-<p><strong><em>Eric Evans</em></strong>, the author of the book <strong><em>“Domain-Driven Design: Tackling Complexity in the Heart of Software”</em></strong>,  is one significant figure in the Domain-Driven Design (DDD) community, which often advocates for practices like strongly-typed IDs. While Evans himself may not explicitly advocate for strongly-typed IDs, the principles he outlines in his book align well with the concept.</p>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
 
-<p>Many advocates of statically-typed languages such as C#, Java, or TypeScript also tend to favor strongly-typed IDs. These languages, by their nature, encourage the use of explicit types to improve code clarity and safety.</p>
+  <div class="wrapper">
 
-<p>In the context of EF Core applications, ‘Primitive Obsession’ often refers to using primitive types such as <code class="language-plaintext highlighter-rouge">int</code>, <code class="language-plaintext highlighter-rouge">string</code>, or <code class="language-plaintext highlighter-rouge">Guid</code> to represent entity IDs, rather than creating a separate, more specific type. For instance, rather than creating a CustomerId type for customer IDs, a developer might just use an <code class="language-plaintext highlighter-rouge">int</code>. This can lead to confusion as these IDs are passed around the application, as it’s unclear what type of entity the ID refers to.</p>
+    <h2 class="footer-heading">macrobert.com</h2>
 
-<p>While using primitive types can be quicker and simpler in the short term, it can lead to problems in the long term, including:</p>
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">macrobert.com</li><li><a class="u-email" href="mailto:dev@macrobert.com">dev@macrobert.com</a></li></ul>
+      </div>
 
-<ul>
-  <li><strong>Lack of clarity</strong>: Without a specific type, it’s not immediately clear what an ID refers to. This can make the code harder to understand and maintain.</li>
-  <li><strong>Type safety issues</strong>: If you’re using primitive types for IDs, it’s easy to accidentally pass an ID of one type to a method that expects an ID of a different type. The compiler won’t catch this error, and it could lead to bugs that are hard to track down.</li>
-  <li><strong>Missed opportunities for encapsulation</strong>: By using a specific type, you can encapsulate logic related to the ID inside that type. For instance, if there are specific rules around what values an ID can have, those rules can be enforced in the ID type itself.</li>
-</ul>
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/machonky"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">machonky</span></a></li></ul>
+</div>
 
-<p>To counter this ‘Primitive Obsession’ one should use ‘Domain Primitives’ or ‘Value Objects’. These are small classes that encapsulate a simple domain concept. For example, instead of using an <code class="language-plaintext highlighter-rouge">int</code> for a customer ID, you could create a formal <code class="language-plaintext highlighter-rouge">CustomerId</code> class. This makes the code more self-documenting and helps prevent errors. However, it can increase the complexity of the codebase and requires careful design to ensure the classes are correctly implemented.</p>
+      <div class="footer-col footer-col-3">
+        <p>Martin lives and works Internationally building really useful things.</p>
+      </div>
+    </div>
 
-<h2 id="lets-look-a-little-closer">Lets look a little closer…</h2>
+  </div>
 
-<p>When building software applications, it’s common to use identifiers (IDs) to uniquely distinguish entities. This is especially true in the realm of databases where IDs are used as primary keys. In .NET’s Entity Framework Core, the default type for these identifiers is often an integer or a GUID. However, there’s a growing trend towards using Strongly-Typed IDs, an approach that has its own set of advantages and limitations.</p>
+</footer>
+</body>
 
-<h2 id="what-are-strongly-typed-ids">What are Strongly-Typed IDs?</h2>
-
-<p>Traditionally, IDs in Entity Framework Core are represented as simple primitives, like int, long, or Guid. However, these types don’t provide any context or meaning about what they represent. They are just raw values.</p>
-
-<p>Strongly-Typed IDs, on the other hand, wrap these raw values in a more meaningful type. For instance, instead of having an integer represent an OrderID, a new type <code class="language-plaintext highlighter-rouge">OrderId</code> is created. This new type can help to avoid errors and provide clarity about what the ID represents.</p>
-
-<h3 id="example">Example</h3>
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">struct</span> <span class="nc">OrderId</span>
-<span class="p">{</span>
-    <span class="k">public</span> <span class="kt">int</span> <span class="n">Value</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
-    
-    <span class="k">public</span> <span class="nf">OrderId</span><span class="p">(</span><span class="kt">int</span> <span class="k">value</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">Value</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div>
-<p>In the example above the class name helps express the intent of the class, while being declared as a <code class="language-plaintext highlighter-rouge">struct</code> ensures that equality comparisons are based on their values. If a contained property were to be of a reference type however it would be necessary to override the <code class="language-plaintext highlighter-rouge">Equals</code> method (and <code class="language-plaintext highlighter-rouge">GetHashCode</code> method) in the struct to ensure a proper value comparison.</p>
-
-<p>As of C# 9.0 as part of .NET 5, (released in November 2020), the newer <code class="language-plaintext highlighter-rouge">record</code> type permits a more compact expression of such types as shown:</p>
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">record</span> <span class="nc">OrderId</span><span class="p">(</span><span class="kt">int</span> <span class="n">Value</span><span class="p">);</span>
-</code></pre></div></div>
-<p>The ease of declaration of such types makes it very tempting for use in new projects or retrofitting to older ones.</p>
-
-<p>This being said, it would be wise to identify the full cost of the use of such types in any major project.</p>]]></content><author><name></name></author><category term="dotnet" /><category term="strongly_typed_ids" /><summary type="html"><![CDATA[While studying Domain Driven Design and software architecture, I’ve seen strong advocacy for the use of Strongly-Typed-Ids instead of the traditional use of strings, guids and integers with the aim of preventing ‘Primitive Obsession’ and the ensuing errors associated with this behaviour.]]></summary></entry><entry><title type="html">Comparison: C# `structs` vs `records`</title><link href="https://blog.macrobert.com/dotnet/2023/06/29/structs_vs_records.html" rel="alternate" type="text/html" title="Comparison: C# `structs` vs `records`" /><published>2023-06-29T12:00:00+08:00</published><updated>2023-06-29T12:00:00+08:00</updated><id>https://blog.macrobert.com/dotnet/2023/06/29/structs_vs_records</id><content type="html" xml:base="https://blog.macrobert.com/dotnet/2023/06/29/structs_vs_records.html"><![CDATA[<h1 id="comparison-c-structs-vs-records">Comparison: C# <code class="language-plaintext highlighter-rouge">structs</code> vs <code class="language-plaintext highlighter-rouge">records</code></h1>
-
-<h2 id="structs"><code class="language-plaintext highlighter-rouge">structs</code></h2>
-
-<h3 id="strengths">Strengths:</h3>
-
-<ul>
-  <li><strong>Performance</strong>: As value types, structs are stored on the stack (unless they are boxed or are part of a class), which can offer performance benefits for small types.</li>
-  <li><strong>No Nullability</strong>: A struct cannot be null (unless it’s a nullable struct), which can prevent null reference exceptions.</li>
-</ul>
-
-<p>Example:</p>
-
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">struct</span> <span class="nc">OrderId</span>
-<span class="p">{</span>
-    <span class="k">public</span> <span class="kt">int</span> <span class="n">Value</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
-    
-    <span class="k">public</span> <span class="nf">OrderId</span><span class="p">(</span><span class="kt">int</span> <span class="k">value</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">Value</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h3 id="limitations">Limitations:</h3>
-
-<ul>
-  <li><strong>Manual Implementation of Equality</strong>: By default, structs use value equality, but this is based only on their public fields. If the struct contains reference types, or if you want to compare properties, you need to manually override <code class="language-plaintext highlighter-rouge">Equals()</code> and <code class="language-plaintext highlighter-rouge">GetHashCode()</code> methods.</li>
-  <li><strong>Immutability is Manual</strong>: To make a struct immutable, you have to manually ensure none of the properties can be modified after initialization, as in your example.</li>
-</ul>
-
-<h2 id="records"><code class="language-plaintext highlighter-rouge">records</code></h2>
-
-<h3 id="strengths-1">Strengths:</h3>
-
-<ul>
-  <li><strong>Immutability by Default</strong>: Records are immutable by default. Any attempt to change a property results in the creation of a new instance.</li>
-  <li><strong>Value-Based Equality</strong>: Records provide value-based equality checks and useful <code class="language-plaintext highlighter-rouge">ToString</code> implementation out of the box. No need to manually override <code class="language-plaintext highlighter-rouge">Equals()</code> or <code class="language-plaintext highlighter-rouge">GetHashCode()</code>.</li>
-</ul>
-
-<p>Example:</p>
-
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">record</span> <span class="nc">OrderId</span><span class="p">(</span><span class="kt">int</span> <span class="n">Value</span><span class="p">);</span>
-</code></pre></div></div>
-
-<h3 id="limitations-1">Limitations:</h3>
-
-<ul>
-  <li><strong>Performance</strong>: Records are reference types and are stored on the heap, which could lead to more garbage collection than a struct, depending on how they’re used.</li>
-  <li><strong>Nullability</strong>: Records can be null, which means you need to guard against null reference exceptions.</li>
-</ul>]]></content><author><name></name></author><category term="dotnet" /><summary type="html"><![CDATA[Comparison: C# structs vs records]]></summary></entry><entry><title type="html">Welcome</title><link href="https://blog.macrobert.com/welcome/2016/01/01/Welcome.html" rel="alternate" type="text/html" title="Welcome" /><published>2016-01-01T11:42:35+08:00</published><updated>2016-01-01T11:42:35+08:00</updated><id>https://blog.macrobert.com/welcome/2016/01/01/Welcome</id><content type="html" xml:base="https://blog.macrobert.com/welcome/2016/01/01/Welcome.html"><![CDATA[<p>Thanks for dropping by…</p>
-
-<p>I’ve developed as a Software Professional, learning techniques from countless blogs like this one. Other developers have generously shared their wisdom and learning experiences to the benefit of a larger community. I’d like to do the same.</p>
-
-<p>My focus is centered around cross platform .NET &amp; C++ development, associated languages and tools, plus a few other rambling observations and opinions.</p>
-
-<p>The content is as much for sharing as well as for my own reference in future projects.
-I hope you find it useful.</p>]]></content><author><name></name></author><category term="welcome" /><summary type="html"><![CDATA[Thanks for dropping by…]]></summary></entry></feed>
+</html>
