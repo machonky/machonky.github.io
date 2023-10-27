@@ -110,7 +110,8 @@ If we declare an interface <code class="language-plaintext highlighter-rouge">IS
     <span class="k">public</span> <span class="n">T</span> <span class="n">Value</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
-<p>To keep things interesting we’ll make our Strongly Typed Ids use a <code class="language-plaintext highlighter-rouge">Ulid</code> value as the underlying value primitive. We’ll also use the ‘Value’ term as property used to extract the underlying primitive value.</p>
+<p>To keep things interesting we’ll make our Strongly Typed Ids use a <code class="language-plaintext highlighter-rouge">Ulid</code> value as the underlying value primitive. We’ll also use the ‘Value’ term as property used to extract the underlying primitive value.
+For more information on ULIDs <a href="/dotnet/2023/06/28/ULIDs.html">refer to this post</a></p>
 
 <p>Continuing our example therefore we can declare a <code class="language-plaintext highlighter-rouge">CompanyId</code> for use in a <code class="language-plaintext highlighter-rouge">Company</code> entity as shown:</p>
 <div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">record</span> <span class="nc">CompanyId</span><span class="p">(</span><span class="n">Ulid</span> <span class="n">Value</span><span class="p">)</span> <span class="p">:</span> <span class="n">IStronglyTypedId</span><span class="p">&lt;</span><span class="n">Ulid</span><span class="p">&gt;;</span>

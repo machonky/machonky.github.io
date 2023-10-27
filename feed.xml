@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://blog.macrobert.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.macrobert.com/" rel="alternate" type="text/html" /><updated>2023-10-26T15:14:17+08:00</updated><id>https://blog.macrobert.com/feed.xml</id><title type="html">macrobert.com</title><subtitle>Martin lives and works Internationally building really useful things.</subtitle><entry><title type="html">Strongly Typed Ids in Entity Framework Core (2/N)</title><link href="https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core.html" rel="alternate" type="text/html" title="Strongly Typed Ids in Entity Framework Core (2/N)" /><published>2023-07-03T12:00:00+08:00</published><updated>2023-07-03T12:00:00+08:00</updated><id>https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core</id><content type="html" xml:base="https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core.html"><![CDATA[<p>This article is a continuation of a <a href="/dotnet/strongly_typed_ids/2023/06/30/StronglyTypedIds.html">previous article</a> exploring the use of Strongly Typed Ids in .NET Entity Framework Core.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://blog.macrobert.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.macrobert.com/" rel="alternate" type="text/html" /><updated>2023-10-27T11:33:26+08:00</updated><id>https://blog.macrobert.com/feed.xml</id><title type="html">macrobert.com</title><subtitle>Martin lives and works Internationally building really useful things.</subtitle><entry><title type="html">Strongly Typed Ids in Entity Framework Core (2/N)</title><link href="https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core.html" rel="alternate" type="text/html" title="Strongly Typed Ids in Entity Framework Core (2/N)" /><published>2023-07-03T12:00:00+08:00</published><updated>2023-07-03T12:00:00+08:00</updated><id>https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core</id><content type="html" xml:base="https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core.html"><![CDATA[<p>This article is a continuation of a <a href="/dotnet/strongly_typed_ids/2023/06/30/StronglyTypedIds.html">previous article</a> exploring the use of Strongly Typed Ids in .NET Entity Framework Core.</p>
 
 <p>In this article we’ll explore how to fully intgrate Strongly Typed Ids into an EF Core application. We’ll intentionally work through a non-trivial solution to ensure that issues like code-maintainability and scalability are also addressed so that 
 the EF Core framework treats Strongly Typed Ids as first class citizens in an application, transparently converting and persisting data, where a developer merely has to declare the existence of a type.</p>
@@ -61,7 +61,8 @@ If we declare an interface <code class="language-plaintext highlighter-rouge">IS
     <span class="k">public</span> <span class="n">T</span> <span class="n">Value</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
-<p>To keep things interesting we’ll make our Strongly Typed Ids use a <code class="language-plaintext highlighter-rouge">Ulid</code> value as the underlying value primitive. We’ll also use the ‘Value’ term as property used to extract the underlying primitive value.</p>
+<p>To keep things interesting we’ll make our Strongly Typed Ids use a <code class="language-plaintext highlighter-rouge">Ulid</code> value as the underlying value primitive. We’ll also use the ‘Value’ term as property used to extract the underlying primitive value.
+For more information on ULIDs <a href="/dotnet/2023/06/28/ULIDs.html">refer to this post</a></p>
 
 <p>Continuing our example therefore we can declare a <code class="language-plaintext highlighter-rouge">CompanyId</code> for use in a <code class="language-plaintext highlighter-rouge">Company</code> entity as shown:</p>
 <div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">record</span> <span class="nc">CompanyId</span><span class="p">(</span><span class="n">Ulid</span> <span class="n">Value</span><span class="p">)</span> <span class="p">:</span> <span class="n">IStronglyTypedId</span><span class="p">&lt;</span><span class="n">Ulid</span><span class="p">&gt;;</span>
@@ -373,7 +374,95 @@ The Configuration code becomes:</p>
 <ul>
   <li><strong>Performance</strong>: Records are reference types and are stored on the heap, which could lead to more garbage collection than a struct, depending on how they’re used.</li>
   <li><strong>Nullability</strong>: Records can be null, which means you need to guard against null reference exceptions.</li>
-</ul>]]></content><author><name></name></author><category term="dotnet" /><summary type="html"><![CDATA[Comparison: C# structs vs records]]></summary></entry><entry><title type="html">Welcome</title><link href="https://blog.macrobert.com/welcome/2016/01/01/Welcome.html" rel="alternate" type="text/html" title="Welcome" /><published>2016-01-01T11:42:35+08:00</published><updated>2016-01-01T11:42:35+08:00</updated><id>https://blog.macrobert.com/welcome/2016/01/01/Welcome</id><content type="html" xml:base="https://blog.macrobert.com/welcome/2016/01/01/Welcome.html"><![CDATA[<p>Thanks for dropping by…</p>
+</ul>]]></content><author><name></name></author><category term="dotnet" /><summary type="html"><![CDATA[Comparison: C# structs vs records]]></summary></entry><entry><title type="html">ULIDs: Benefits, Limitations, and Usage in ASP.NET Core</title><link href="https://blog.macrobert.com/dotnet/2023/06/28/ULIDs.html" rel="alternate" type="text/html" title="ULIDs: Benefits, Limitations, and Usage in ASP.NET Core" /><published>2023-06-28T12:00:00+08:00</published><updated>2023-06-28T12:00:00+08:00</updated><id>https://blog.macrobert.com/dotnet/2023/06/28/ULIDs</id><content type="html" xml:base="https://blog.macrobert.com/dotnet/2023/06/28/ULIDs.html"><![CDATA[<p>When it comes to assigning unique identifiers to entities or objects within an application, most developers rely on traditional mechanisms such as <code class="language-plaintext highlighter-rouge">GUID</code> or <code class="language-plaintext highlighter-rouge">UUID</code>. However, another interesting and potentially beneficial approach exists: <strong>Universally Unique Lexicographically Sortable Identifier</strong> (ULID).</p>
+
+<p>In this blog post, we’ll delve into the concept of ULIDs, their advantages and limitations, and how they can be utilized within a .NET Core ASP.NET application.</p>
+
+<h2 id="what-is-a-ulid">What is a ULID?</h2>
+
+<p>A ULID is a <strong>26-character identifier</strong> that is both <em>unique and sortable</em> in lexicographical order. 
+It’s composed of two parts:</p>
+<ul>
+  <li>a 10-character timestamp (in milliseconds)</li>
+  <li>and a 16-character random (or entropy) part.</li>
+</ul>
+
+<p>The timestamp ensures lexicographical order, and the random part ensures uniqueness. By being lexicographically sortable, ULIDs offer a unique advantage over traditional UUIDs which don’t retain the order of creation.</p>
+
+<p>Output as a string a ULID looks like: <code class="language-plaintext highlighter-rouge">01H40CTHC0RNRGR77TFN01DW7M</code></p>
+<ul>
+  <li>timestamp: <code class="language-plaintext highlighter-rouge">01H40CTHC0</code></li>
+  <li>entropy: <code class="language-plaintext highlighter-rouge">RNRGR77TFN01DW7M</code></li>
+</ul>
+
+<h2 id="benefits-of-ulids">Benefits of ULIDs</h2>
+
+<p>There are several benefits to using ULIDs:</p>
+
+<ul>
+  <li>
+    <p><strong>Time-Ordering</strong>: ULIDs are lexicographically sortable, meaning they retain information about when they were generated. This can be very useful in systems where the ordering of entities matters.</p>
+  </li>
+  <li>
+    <p><strong>Highly Unique</strong>: With a 16-character random component, the probability of ULID collision is extremely low, similar to a UUID.</p>
+  </li>
+  <li>
+    <p><strong>Web-Safe</strong>: ULIDs are encoded in Base32, which makes them URL-safe and usable in a wide range of scenarios.</p>
+  </li>
+  <li>
+    <p><strong>Readable &amp; Compact</strong>: Despite packing in a lot of information, ULIDs are still relatively compact and human-readable compared to a UUID.</p>
+  </li>
+</ul>
+
+<h2 id="limitations-of-ulids">Limitations of ULIDs</h2>
+
+<p>Though ULIDs offer numerous benefits, they come with a few limitations:</p>
+
+<ul>
+  <li>
+    <p><strong>Concurrency Issues</strong>: If you generate multiple ULIDs at the same timestamp, the lexicographic ordering can get disrupted.</p>
+  </li>
+  <li>
+    <p><strong>Non-Cryptographic</strong>: ULIDs aren’t suitable for scenarios where cryptographic randomness is required as the first part of a ULID is time-based.</p>
+  </li>
+</ul>
+
+<h2 id="using-ulids-in-net-core-aspnet-applications">Using ULIDs in .NET Core ASP.NET Applications</h2>
+
+<p>To generate ULIDs in .NET, you’ll need a library such as <a href="https://www.nuget.org/packages/Ulid">Ulid</a>. You can install at the command line with:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> dotnet add package Ulid
+</code></pre></div></div>
+<p>Intallation instructions for other environments can be found on the <a href="https://www.nuget.org/packages/Ulid">Nuget.org page</a>.</p>
+
+<p>Once installed, you can generate a ULID as follows:</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">newUlid</span> <span class="p">=</span> <span class="n">Ulid</span><span class="p">.</span><span class="nf">NewUlid</span><span class="p">();</span>
+<span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">newUlid</span><span class="p">.</span><span class="nf">ToString</span><span class="p">());</span>
+</code></pre></div></div>
+
+<p>It’s also possible to generate a ULID at the command line via the dotnet CLI with:</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> dotnet ulid
+</code></pre></div></div>
+
+<p>In Entity Framework Core, you can use ULIDs as your entity IDs. Here’s an example:</p>
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">class</span> <span class="nc">Order</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="n">Ulid</span> <span class="n">Id</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="c1">// Other properties...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>To configure EF Core to use ULIDs, you’ll need to use the HasConversion method in your DbContext:</p>
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">modelBuilder</span><span class="p">.</span><span class="n">Entity</span><span class="p">&lt;</span><span class="n">Order</span><span class="p">&gt;()</span>
+    <span class="p">.</span><span class="nf">Property</span><span class="p">(</span><span class="n">e</span> <span class="p">=&gt;</span> <span class="n">e</span><span class="p">.</span><span class="n">Id</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">HasConversion</span><span class="p">(</span>
+        <span class="n">v</span> <span class="p">=&gt;</span> <span class="n">v</span><span class="p">.</span><span class="nf">ToString</span><span class="p">(),</span>
+        <span class="n">v</span> <span class="p">=&gt;</span> <span class="n">Ulid</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span><span class="n">v</span><span class="p">));</span>
+</code></pre></div></div>
+
+<h2 id="summary">Summary</h2>
+<p>ULIDs represent an interesting alternative to traditional identifiers like UUIDs or integers, especially in systems where time-oriented sorting matters. By understanding their benefits and limitations, you can make an informed decision on whether they fit your ASP.NET Core application’s needs.</p>]]></content><author><name></name></author><category term="dotnet" /><summary type="html"><![CDATA[When it comes to assigning unique identifiers to entities or objects within an application, most developers rely on traditional mechanisms such as GUID or UUID. However, another interesting and potentially beneficial approach exists: Universally Unique Lexicographically Sortable Identifier (ULID).]]></summary></entry><entry><title type="html">Welcome</title><link href="https://blog.macrobert.com/welcome/2016/01/01/Welcome.html" rel="alternate" type="text/html" title="Welcome" /><published>2016-01-01T11:42:35+08:00</published><updated>2016-01-01T11:42:35+08:00</updated><id>https://blog.macrobert.com/welcome/2016/01/01/Welcome</id><content type="html" xml:base="https://blog.macrobert.com/welcome/2016/01/01/Welcome.html"><![CDATA[<p>Thanks for dropping by…</p>
 
 <p>I’ve developed as a Software Professional, learning techniques from countless blogs like this one. Other developers have generously shared their wisdom and learning experiences to the benefit of a larger community. I’d like to do the same.</p>
 

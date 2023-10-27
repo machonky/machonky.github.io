@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>ULIDs: Benefits, Limitations, and Usage in ASP.NET Core | macrobert.com</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="ULIDs: Benefits, Limitations, and Usage in ASP.NET Core" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="When it comes to assigning unique identifiers to entities or objects within an application, most developers rely on traditional mechanisms such as GUID or UUID. However, another interesting and potentially beneficial approach exists: Universally Unique Lexicographically Sortable Identifier (ULID)." />
+<meta property="og:description" content="When it comes to assigning unique identifiers to entities or objects within an application, most developers rely on traditional mechanisms such as GUID or UUID. However, another interesting and potentially beneficial approach exists: Universally Unique Lexicographically Sortable Identifier (ULID)." />
+<link rel="canonical" href="https://blog.macrobert.com/dotnet/2023/06/28/ULIDs.html" />
+<meta property="og:url" content="https://blog.macrobert.com/dotnet/2023/06/28/ULIDs.html" />
+<meta property="og:site_name" content="macrobert.com" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-06-28T12:00:00+08:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="ULIDs: Benefits, Limitations, and Usage in ASP.NET Core" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-06-28T12:00:00+08:00","datePublished":"2023-06-28T12:00:00+08:00","description":"When it comes to assigning unique identifiers to entities or objects within an application, most developers rely on traditional mechanisms such as GUID or UUID. However, another interesting and potentially beneficial approach exists: Universally Unique Lexicographically Sortable Identifier (ULID).","headline":"ULIDs: Benefits, Limitations, and Usage in ASP.NET Core","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.macrobert.com/dotnet/2023/06/28/ULIDs.html"},"url":"https://blog.macrobert.com/dotnet/2023/06/28/ULIDs.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://blog.macrobert.com/feed.xml" title="macrobert.com" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">macrobert.com</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">ULIDs: Benefits, Limitations, and Usage in ASP.NET Core</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2023-06-28T12:00:00+08:00" itemprop="datePublished">Jun 28, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>When it comes to assigning unique identifiers to entities or objects within an application, most developers rely on traditional mechanisms such as <code class="language-plaintext highlighter-rouge">GUID</code> or <code class="language-plaintext highlighter-rouge">UUID</code>. However, another interesting and potentially beneficial approach exists: <strong>Universally Unique Lexicographically Sortable Identifier</strong> (ULID).</p>
+
+<p>In this blog post, we’ll delve into the concept of ULIDs, their advantages and limitations, and how they can be utilized within a .NET Core ASP.NET application.</p>
+
+<h2 id="what-is-a-ulid">What is a ULID?</h2>
+
+<p>A ULID is a <strong>26-character identifier</strong> that is both <em>unique and sortable</em> in lexicographical order. 
+It’s composed of two parts:</p>
+<ul>
+  <li>a 10-character timestamp (in milliseconds)</li>
+  <li>and a 16-character random (or entropy) part.</li>
+</ul>
+
+<p>The timestamp ensures lexicographical order, and the random part ensures uniqueness. By being lexicographically sortable, ULIDs offer a unique advantage over traditional UUIDs which don’t retain the order of creation.</p>
+
+<p>Output as a string a ULID looks like: <code class="language-plaintext highlighter-rouge">01H40CTHC0RNRGR77TFN01DW7M</code></p>
+<ul>
+  <li>timestamp: <code class="language-plaintext highlighter-rouge">01H40CTHC0</code></li>
+  <li>entropy: <code class="language-plaintext highlighter-rouge">RNRGR77TFN01DW7M</code></li>
+</ul>
+
+<h2 id="benefits-of-ulids">Benefits of ULIDs</h2>
+
+<p>There are several benefits to using ULIDs:</p>
+
+<ul>
+  <li>
+    <p><strong>Time-Ordering</strong>: ULIDs are lexicographically sortable, meaning they retain information about when they were generated. This can be very useful in systems where the ordering of entities matters.</p>
+  </li>
+  <li>
+    <p><strong>Highly Unique</strong>: With a 16-character random component, the probability of ULID collision is extremely low, similar to a UUID.</p>
+  </li>
+  <li>
+    <p><strong>Web-Safe</strong>: ULIDs are encoded in Base32, which makes them URL-safe and usable in a wide range of scenarios.</p>
+  </li>
+  <li>
+    <p><strong>Readable &amp; Compact</strong>: Despite packing in a lot of information, ULIDs are still relatively compact and human-readable compared to a UUID.</p>
+  </li>
+</ul>
+
+<h2 id="limitations-of-ulids">Limitations of ULIDs</h2>
+
+<p>Though ULIDs offer numerous benefits, they come with a few limitations:</p>
+
+<ul>
+  <li>
+    <p><strong>Concurrency Issues</strong>: If you generate multiple ULIDs at the same timestamp, the lexicographic ordering can get disrupted.</p>
+  </li>
+  <li>
+    <p><strong>Non-Cryptographic</strong>: ULIDs aren’t suitable for scenarios where cryptographic randomness is required as the first part of a ULID is time-based.</p>
+  </li>
+</ul>
+
+<h2 id="using-ulids-in-net-core-aspnet-applications">Using ULIDs in .NET Core ASP.NET Applications</h2>
+
+<p>To generate ULIDs in .NET, you’ll need a library such as <a href="https://www.nuget.org/packages/Ulid">Ulid</a>. You can install at the command line with:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> dotnet add package Ulid
+</code></pre></div></div>
+<p>Intallation instructions for other environments can be found on the <a href="https://www.nuget.org/packages/Ulid">Nuget.org page</a>.</p>
+
+<p>Once installed, you can generate a ULID as follows:</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">newUlid</span> <span class="p">=</span> <span class="n">Ulid</span><span class="p">.</span><span class="nf">NewUlid</span><span class="p">();</span>
+<span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">newUlid</span><span class="p">.</span><span class="nf">ToString</span><span class="p">());</span>
+</code></pre></div></div>
+
+<p>It’s also possible to generate a ULID at the command line via the dotnet CLI with:</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> dotnet ulid
+</code></pre></div></div>
+
+<p>In Entity Framework Core, you can use ULIDs as your entity IDs. Here’s an example:</p>
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">class</span> <span class="nc">Order</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="n">Ulid</span> <span class="n">Id</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="c1">// Other properties...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>To configure EF Core to use ULIDs, you’ll need to use the HasConversion method in your DbContext:</p>
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">modelBuilder</span><span class="p">.</span><span class="n">Entity</span><span class="p">&lt;</span><span class="n">Order</span><span class="p">&gt;()</span>
+    <span class="p">.</span><span class="nf">Property</span><span class="p">(</span><span class="n">e</span> <span class="p">=&gt;</span> <span class="n">e</span><span class="p">.</span><span class="n">Id</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">HasConversion</span><span class="p">(</span>
+        <span class="n">v</span> <span class="p">=&gt;</span> <span class="n">v</span><span class="p">.</span><span class="nf">ToString</span><span class="p">(),</span>
+        <span class="n">v</span> <span class="p">=&gt;</span> <span class="n">Ulid</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span><span class="n">v</span><span class="p">));</span>
+</code></pre></div></div>
+
+<h2 id="summary">Summary</h2>
+<p>ULIDs represent an interesting alternative to traditional identifiers like UUIDs or integers, especially in systems where time-oriented sorting matters. By understanding their benefits and limitations, you can make an informed decision on whether they fit your ASP.NET Core application’s needs.</p>
+
+  </div><a class="u-url" href="/dotnet/2023/06/28/ULIDs.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">macrobert.com</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">macrobert.com</li><li><a class="u-email" href="mailto:dev@macrobert.com">dev@macrobert.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/machonky"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">machonky</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Martin lives and works Internationally building really useful things.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
