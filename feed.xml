@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://blog.macrobert.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.macrobert.com/" rel="alternate" type="text/html" /><updated>2023-10-27T11:33:26+08:00</updated><id>https://blog.macrobert.com/feed.xml</id><title type="html">macrobert.com</title><subtitle>Martin lives and works Internationally building really useful things.</subtitle><entry><title type="html">Strongly Typed Ids in Entity Framework Core (2/N)</title><link href="https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core.html" rel="alternate" type="text/html" title="Strongly Typed Ids in Entity Framework Core (2/N)" /><published>2023-07-03T12:00:00+08:00</published><updated>2023-07-03T12:00:00+08:00</updated><id>https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core</id><content type="html" xml:base="https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core.html"><![CDATA[<p>This article is a continuation of a <a href="/dotnet/strongly_typed_ids/2023/06/30/StronglyTypedIds.html">previous article</a> exploring the use of Strongly Typed Ids in .NET Entity Framework Core.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://blog.macrobert.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.macrobert.com/" rel="alternate" type="text/html" /><updated>2023-10-30T10:16:45+08:00</updated><id>https://blog.macrobert.com/feed.xml</id><title type="html">macrobert.com</title><subtitle>Martin lives and works Internationally building really useful things.</subtitle><entry><title type="html">Strongly Typed Ids in Entity Framework Core (2/N)</title><link href="https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core.html" rel="alternate" type="text/html" title="Strongly Typed Ids in Entity Framework Core (2/N)" /><published>2023-07-03T12:00:00+08:00</published><updated>2023-07-03T12:00:00+08:00</updated><id>https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core</id><content type="html" xml:base="https://blog.macrobert.com/dotnet/strongly_typed_ids/efcore/2023/07/03/StronglyTypedIds_In_EF_Core.html"><![CDATA[<p>This article is a continuation of a <a href="/dotnet/strongly_typed_ids/2023/06/30/StronglyTypedIds.html">previous article</a> exploring the use of Strongly Typed Ids in .NET Entity Framework Core.</p>
 
 <p>In this article we’ll explore how to fully intgrate Strongly Typed Ids into an EF Core application. We’ll intentionally work through a non-trivial solution to ensure that issues like code-maintainability and scalability are also addressed so that 
 the EF Core framework treats Strongly Typed Ids as first class citizens in an application, transparently converting and persisting data, where a developer merely has to declare the existence of a type.</p>
@@ -130,7 +130,19 @@ For more information on ULIDs <a href="/dotnet/2023/06/28/ULIDs.html">refer to t
 <span class="p">}</span>
 
 </code></pre></div></div>
-<p>We know that <code class="language-plaintext highlighter-rouge">Ulid</code>’s can be expressed as text with 26 characters so <code class="language-plaintext highlighter-rouge">EntityId</code> is defined as:</p>
+<p>where the <code class="language-plaintext highlighter-rouge">AssemblyReference</code> supplied as a parameter to the <code class="language-plaintext highlighter-rouge">AssemblyScanner</code> is defined as follows:</p>
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">using</span> <span class="nn">System.Reflection</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">Domain</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">AssemblyReference</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">readonly</span> <span class="n">Assembly</span> <span class="n">Assembly</span> <span class="p">=</span> <span class="k">typeof</span><span class="p">(</span><span class="n">AssemblyReference</span><span class="p">).</span><span class="n">Assembly</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>(This technique is popularised by <a href="https://www.youtube.com/@MilanJovanovicTech/featured">Milan Jovanovic</a> in numerous coding examples on his YouTube channel)</p>
+
+<p>We know that <code class="language-plaintext highlighter-rouge">Ulid</code>’s can be expressed as text with 26 characters so <code class="language-plaintext highlighter-rouge">EntityId</code> is defined with a didactic <code class="language-plaintext highlighter-rouge">consts</code> class as:</p>
 <div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">class</span> <span class="nc">EntityId</span>
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">Length</span> <span class="p">=</span> <span class="m">26</span><span class="p">;</span>
@@ -168,7 +180,7 @@ For more information on ULIDs <a href="/dotnet/2023/06/28/ULIDs.html">refer to t
 </code></pre></div></div>
 <p>This is not of much use to us, as it is for our underlying type, not the Strongly Typed Id.</p>
 
-<p>However, based on the example above we could conservatively estimate that we have 10 lines of code per Strongly Typed Id of overhead. So our 40 lines of Strongly Typed Id code now has 400 lines of overhead-code to maintain… Excluding unit-test code. <strong>Not Ideal</strong>. We need to avoid this at all costs as this approach scales badly.</p>
+<p>However, based on the example above we could conservatively estimate that we have 10 lines of code per Strongly Typed Id of overhead. So our 40 lines of Strongly Typed Id code now has 400 lines of overhead-code to maintain… Excluding unit-test code. <strong>Not Ideal</strong>. We need to avoid this at all costs as <strong>this approach scales badly</strong>.</p>
 
 <p>We need our framework to <strong>‘automagically’</strong> declare a <code class="language-plaintext highlighter-rouge">ValueConverter</code> for us, as each Strongly Typed Id is discovered.</p>
 
@@ -215,14 +227,14 @@ For more information on ULIDs <a href="/dotnet/2023/06/28/ULIDs.html">refer to t
 </code></pre></div></div>
 <p>For the the <code class="language-plaintext highlighter-rouge">CompositeValueConverter</code> snippet above</p>
 <ul>
-  <li>our <code class="language-plaintext highlighter-rouge">ModelType</code> maps neatly to the <code class="language-plaintext highlighter-rouge">TModel</code> generic parameter.</li>
-  <li>our <code class="language-plaintext highlighter-rouge">MiddleType</code> maps to the <code class="language-plaintext highlighter-rouge">TMiddle</code> parameter</li>
-  <li>lastly our <code class="language-plaintext highlighter-rouge">ProviderType</code> maps to the <code class="language-plaintext highlighter-rouge">TProvider</code> generic parameter.</li>
+  <li>our <code class="language-plaintext highlighter-rouge">ModelType</code> maps neatly to the <code class="language-plaintext highlighter-rouge">TModel</code> generic parameter (eg. <code class="language-plaintext highlighter-rouge">CompanyId</code>, but could be any Strongly Typed Id).</li>
+  <li>our <code class="language-plaintext highlighter-rouge">MiddleType</code> maps to the <code class="language-plaintext highlighter-rouge">TMiddle</code> parameter (ie. <code class="language-plaintext highlighter-rouge">Ulid</code>)</li>
+  <li>lastly our <code class="language-plaintext highlighter-rouge">ProviderType</code> maps to the <code class="language-plaintext highlighter-rouge">TProvider</code> generic parameter (ie. <code class="language-plaintext highlighter-rouge">string</code>).</li>
 </ul>
 
-<p>It’s pretty clear that by placing this class in an <strong>Internal</strong> namespace the EF Core authors don’t intend this to be part of the public EF Core API. However it provides a perfect solution to our problem.</p>
+<p>It’s pretty clear that by placing this class in an <strong>Internal</strong> namespace the EF Core authors didn’t intend this to be part of the public EF Core API. However it provides a perfect solution to our problem.</p>
 
-<p>We can ‘borrow’ the implementation in our code and re-use the <code class="language-plaintext highlighter-rouge">UlidToStringConverter</code> and  <code class="language-plaintext highlighter-rouge">StronglyTypedIdToUlidConverter&lt;T&gt;</code> implementations and <strong>compose</strong> our generic <code class="language-plaintext highlighter-rouge">ValueConverter</code> as shown:</p>
+<p>We can ‘borrow’ the implementation in our code and re-use our <code class="language-plaintext highlighter-rouge">UlidToStringConverter</code> and  <code class="language-plaintext highlighter-rouge">StronglyTypedIdToUlidConverter&lt;T&gt;</code> implementations and <strong>compose</strong> our generic <code class="language-plaintext highlighter-rouge">ValueConverter</code> as shown:</p>
 <div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">class</span> <span class="nc">StronglyTypedIdToStringConverter</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> 
     <span class="p">:</span> <span class="n">CompositeValueConverter</span><span class="p">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">Ulid</span><span class="p">,</span> <span class="kt">string</span><span class="p">&gt;</span> <span class="k">where</span> <span class="n">T</span> <span class="p">:</span> <span class="n">IStronglyTypedId</span><span class="p">&lt;</span><span class="n">Ulid</span><span class="p">&gt;</span>
 <span class="p">{</span>
