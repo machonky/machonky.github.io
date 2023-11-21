@@ -1,4 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://blog.macrobert.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.macrobert.com/" rel="alternate" type="text/html" /><updated>2023-10-30T11:38:27+08:00</updated><id>https://blog.macrobert.com/feed.xml</id><title type="html">macrobert.com</title><subtitle>Martin lives and works Internationally building really useful things.</subtitle><entry><title type="html">Strongly Typed Ids in Entity Framework Core (2/N)</title><link href="https://blog.macrobert.com/2023/07/03/StronglyTypedIds_In_EF_Core.html" rel="alternate" type="text/html" title="Strongly Typed Ids in Entity Framework Core (2/N)" /><published>2023-07-03T12:00:00+08:00</published><updated>2023-07-03T12:00:00+08:00</updated><id>https://blog.macrobert.com/2023/07/03/StronglyTypedIds_In_EF_Core</id><content type="html" xml:base="https://blog.macrobert.com/2023/07/03/StronglyTypedIds_In_EF_Core.html"><![CDATA[<p>This article is a continuation of a <a href="/2023/06/30/StronglyTypedIds.html">previous article</a> exploring the use of Strongly Typed Ids in .NET Entity Framework Core.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://blog.macrobert.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.macrobert.com/" rel="alternate" type="text/html" /><updated>2023-11-21T10:37:30+08:00</updated><id>https://blog.macrobert.com/feed.xml</id><title type="html">macrobert.com</title><subtitle>Martin lives and works Internationally building really useful things.</subtitle><entry><title type="html">Generating new SSH Keys and adding to ssh-agent</title><link href="https://blog.macrobert.com/2023/07/11/Generating_New_SSH-Keys.html" rel="alternate" type="text/html" title="Generating new SSH Keys and adding to ssh-agent" /><published>2023-07-11T12:00:00+08:00</published><updated>2023-07-11T12:00:00+08:00</updated><id>https://blog.macrobert.com/2023/07/11/Generating_New_SSH-Keys</id><content type="html" xml:base="https://blog.macrobert.com/2023/07/11/Generating_New_SSH-Keys.html"><![CDATA[<p><a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">Link</a></p>
+
+<h2 id="summary">Summary</h2>
+
+<h3 id="generating-a-new-ssh-key">Generating a new SSH Key</h3>
+
+<p>From Windows command line:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen -t ed25519 -C "your_email@example.com"
+</code></pre></div></div>
+
+<p>Supply an override filename &amp; passphrase if required.</p>
+
+<p>A pair of files will be created in the user .ssh folder.</p>
+
+<h3 id="adding-the-new-key-to-ssh-agent">Adding the new key to ssh-agent</h3>
+
+<p>As an Administrator:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; Get-Service -Name ssh-agent | Set-Service -StartupType Manual
+&gt; Start-Service ssh-agent
+&gt; ssh-add /c/Users/YOU/.ssh/id_ed25519
+</code></pre></div></div>
+
+<p>After adding the ssh-agent will signal “Identity added”</p>]]></content><author><name></name></author><category term="ssh" /><summary type="html"><![CDATA[Link]]></summary></entry><entry><title type="html">Strongly Typed Ids in Entity Framework Core (2/N)</title><link href="https://blog.macrobert.com/2023/07/03/StronglyTypedIds_In_EF_Core.html" rel="alternate" type="text/html" title="Strongly Typed Ids in Entity Framework Core (2/N)" /><published>2023-07-03T12:00:00+08:00</published><updated>2023-07-03T12:00:00+08:00</updated><id>https://blog.macrobert.com/2023/07/03/StronglyTypedIds_In_EF_Core</id><content type="html" xml:base="https://blog.macrobert.com/2023/07/03/StronglyTypedIds_In_EF_Core.html"><![CDATA[<p>This article is a continuation of a <a href="/2023/06/30/StronglyTypedIds.html">previous article</a> exploring the use of Strongly Typed Ids in .NET Entity Framework Core.</p>
 
 <p>In this article we’ll explore how to fully intgrate Strongly Typed Ids into an EF Core application. We’ll intentionally work through a non-trivial solution to ensure that issues like code-maintainability and scalability are also addressed so that 
 the EF Core framework treats Strongly Typed Ids as first class citizens in an application, transparently converting and persisting data, where a developer merely has to declare the existence of a type.</p>
