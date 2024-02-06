@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "HiitComp.Ui.Browser.dll",
   "resources": {
-    "hash": "sha256-4jUEdopoTrAVZapVnaBYumRgXp8q4hnlwEtMTeTip5E=",
+    "hash": "sha256-9AtYUh9OZCmyHK+B8uDTxDE5jlUtUo76Za4w5Ly3Dsk=",
     "jsModuleNative": {
       "dotnet.native.js": "sha256-PC/Jo9r1DqFZ2On544x8TLQK1NG9loisr0IHRnVGDmE="
     },
@@ -238,9 +238,9 @@
       "mscorlib.wasm": "sha256-EpWTfh4m/hEcXRFYMCR9YeYHwdUJgcm1laBaxWfq2S4=",
       "netstandard.wasm": "sha256-2kH24/YfHmU3B4eYRyRmiwebYROM4+B9eDWKvMnUdP8=",
       "System.Private.CoreLib.wasm": "sha256-CsySKiP7HYY1pS8LTDE60EkqiX5oHb3WoEZHDNd1yK0=",
-      "HiitComp.Domain.wasm": "sha256-S54NNLACUUqhZ2Z25AdknkEYJMcjxDIr4x7TOwq5o+o=",
-      "HiitComp.Ui.wasm": "sha256-HbkbAJf1gnW2+Pwo5Y94xhnv55yv3mWZet7+x3sU/+4=",
-      "HiitComp.Ui.Browser.wasm": "sha256-Xe/DSWDOpns1XirulW55e7nKnMVZau0r5TR9xuJnrrg="
+      "HiitComp.Domain.wasm": "sha256-gOL7QSpk1PbMi0EvL5xfoVXPJewzvS0FfA9JMvIOChA=",
+      "HiitComp.Ui.wasm": "sha256-TCiGp9+N2U+NYxYW1tpJTGpZk9P/4c1Ng9SYWN1Z55w=",
+      "HiitComp.Ui.Browser.wasm": "sha256-66tNpQjxKOOeC/NIiPmEAgw1sdLA852q8FllMT27EV8="
     },
     "vfs": {
       "runtimeconfig.bin": {
