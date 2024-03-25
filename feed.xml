@@ -1,4 +1,232 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://blog.macrobert.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.macrobert.com/" rel="alternate" type="text/html" /><updated>2023-11-21T10:37:30+08:00</updated><id>https://blog.macrobert.com/feed.xml</id><title type="html">macrobert.com</title><subtitle>Martin lives and works Internationally building really useful things.</subtitle><entry><title type="html">Generating new SSH Keys and adding to ssh-agent</title><link href="https://blog.macrobert.com/2023/07/11/Generating_New_SSH-Keys.html" rel="alternate" type="text/html" title="Generating new SSH Keys and adding to ssh-agent" /><published>2023-07-11T12:00:00+08:00</published><updated>2023-07-11T12:00:00+08:00</updated><id>https://blog.macrobert.com/2023/07/11/Generating_New_SSH-Keys</id><content type="html" xml:base="https://blog.macrobert.com/2023/07/11/Generating_New_SSH-Keys.html"><![CDATA[<p><a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">Link</a></p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://blog.macrobert.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.macrobert.com/" rel="alternate" type="text/html" /><updated>2024-03-25T10:59:06+08:00</updated><id>https://blog.macrobert.com/feed.xml</id><title type="html">macrobert.com</title><subtitle>Martin lives and works Internationally building really useful things.</subtitle><entry><title type="html">Internet Certificates and https</title><link href="https://blog.macrobert.com/2024/03/21/Internet-Certificates.html" rel="alternate" type="text/html" title="Internet Certificates and https" /><published>2024-03-21T12:00:00+08:00</published><updated>2024-03-21T12:00:00+08:00</updated><id>https://blog.macrobert.com/2024/03/21/Internet-Certificates</id><content type="html" xml:base="https://blog.macrobert.com/2024/03/21/Internet-Certificates.html"><![CDATA[<h2 id="summary">Summary</h2>
+<p>Internet Security is confusing. There is an overwhelming number of new concepts to explore and understand.</p>
+
+<p>The principal benefit of using https when compared to http is that a server that identifies as a particular organization, actually is the organization in question. That is, the server has “been authenticated” by some trusted authority as actually being that which it claims to be. These trusted-authorities issue certificates for servers to distribute to clients on a connection. A client can scrutinize the credentials supplied in the certificate, referring to the trusted-authority, to verify the autheniticity of the server. A pre-requisite for the scrutiny process is that the client also trusts the “trusted-authority”. With this notion in place, then it follows that a client can also trust certificates issued by the same authority.</p>
+
+<p>Where data is requested of a server a digital certificate of authenticity is supplied by the server to a client to authenticate the server to the client as part of a data response.</p>
+
+<p><img src="/assets/internet_certificates/CA-Trust.svg" alt="Certificate Authority Role diagram" /></p>
+
+<p>It must also be assumed from a security standpoint that the notion of server-trust may also be under attack, as an entity that successfully falsifies the certificate system, may also be able to create a false-certificate allowing a malevolent server to masquerade as a legitimate server.</p>
+
+<p>To better understand the process we can simulate the participants in a lab setting and create our own certificates, acting in the trusted-authority role and creating a server that issues our own trusted certificates.</p>
+
+<p>There is a common process to the creation of certificates.</p>
+<ol>
+  <li>Create a Private Key
+    <ul>
+      <li>Note that wherever a key file is used in the creation of a certificate or request, a passphrase may need to be supplied.</li>
+    </ul>
+  </li>
+  <li>Create a signing request that uses the Private Key
+    <ul>
+      <li>with 1 exception explained below</li>
+    </ul>
+  </li>
+  <li>Create a new certificate that incorporates the private key, signing request and other certificates from a parent trusted-authority (if it exists).
+    <ul>
+      <li>The certificate-chain is used to establish trust via a hierarchical-chain-of-authority.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>An implicit step that follows from above is the deployment of the new certificate to a Certificate Store hosted on an operating system.</p>
+
+<h3 id="the-certificate-authority">The Certificate Authority</h3>
+<ul>
+  <li>A Certificate Authority must self-sign a certificate as there is no other authority to verify against.</li>
+  <li>We can define our own Certificate Authority (CA), by creating a certificate that must be deployed to all machines on our network.</li>
+  <li>On the broader internet, CA certificates are deployed as part of an operating system or OS upgrade.</li>
+  <li>Web browsers maintain their own collection of certificates, also shipped as part of the software and upgraded with each release.</li>
+  <li>In an Enterprise an IT Administrator may deploy certificates to managed machines so they can trust known servers hosted within the Enterprise WLAN.</li>
+  <li>Some applications may compile certificates into the deployment so that the software can only trust specific servers when making a connection. Such an approach requires careful management of the software build process as and changes in ‘trust’ will also require new software deployments.</li>
+</ul>
+
+<h3 id="certificate-creation-tooling">Certificate Creation Tooling</h3>
+<ul>
+  <li>instructions supplied assume the installtion of the <code class="language-plaintext highlighter-rouge">openssl</code> command line tool that is commonly supplied with most linux installations.</li>
+  <li>instructions for creating certificates using PowerShell can be found at <a href="https://learn.microsoft.com/en-us/aspnet/core/security/authentication/certauth?view=aspnetcore-8.0">learn.microsoft.com</a></li>
+  <li>Either tool can be used following the common process above.</li>
+  <li>The default webapi application scaffolded by the dotnet CLI and by Visual Studio is a mock “Weather” application. We’ll create a certificate for this application demonstrating that it uses our new certificate chain.</li>
+  <li>For this lab you’ll also need to know how to operate a DNS server within your LAN which can be configured to match new certificates issued during the process.</li>
+</ul>
+
+<h4 id="the-root-certificate">The Root Certificate</h4>
+<ul>
+  <li>Create a Private Key for the CA
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">openssl genpkey -algorithm RSA -out MacRobertRootCA.key -aes256 4096</code></li>
+      <li>This step may prompt the user for a passphrase which must be supplied wherever the key file is subsequently used.</li>
+    </ul>
+  </li>
+  <li>Generate the Root Certificate using the Private Key
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">openssl req -x509 -new -nodes -key MacRobertRootCA.key -sha256 -days 3650 -out MacRobertRootCA.pem</code></li>
+    </ul>
+  </li>
+  <li>Note that there is no signing request for a Root Certificate as there is no Parent Authority to submit a request.</li>
+  <li>Verify the Root Certificate
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">openssl x509 -in MacRobertRootCA.pem -text -noout</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="the-intermediate-certificates">The Intermediate Certificate(s)</h4>
+<ul>
+  <li>Multiple levels of Intermediate Certificates
+    <ul>
+      <li>Why use an Intermediate Certificate?
+        <ul>
+          <li>In the event of a certificate security breach, certificates must be re-issued both at intermediate CA level and server certificate level.</li>
+          <li>If the Root certificate is breached then the entire certicate tree should be re-issued. This could be a problem where thousands of server certificates have been issued.</li>
+          <li>Intermediate CA certificates are issued for the purpose of certifying servers, so that the impact of a breach can be limited.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>The Intermediate Certificate
+    <ul>
+      <li>Create a Private Key for the Intermediate CA</li>
+      <li>Create a Signing Request
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">openssl req -new -key MacRobertIntermediateCA.key -out MacRobertIntermediateCA.csr</code></li>
+        </ul>
+      </li>
+      <li>Generate the Intermediate Certificate
+        <ul>
+          <li>Create a configuration file containing extra configurations for the certificate
+            <div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[intermediate_ca]</span>
+<span class="py">basicConstraints</span> <span class="p">=</span> <span class="s">critical,CA:TRUE</span>
+<span class="py">keyUsage</span> <span class="p">=</span> <span class="s">critical,digitalSignature,cRLSign,keyCertSign</span>
+</code></pre></div>            </div>
+          </li>
+          <li>Using the Root Certificate, Signing Request and Intermediate Key noting the <code class="language-plaintext highlighter-rouge">intermediate_ca</code> reference to the section of the configuration file.
+            <ul>
+              <li><code class="language-plaintext highlighter-rouge">openssl x509 -req -in MacRobertIntermediateCA.csr -CA MacRobertRootCA.pem -CAkey MacRobertRootCA.key -CAcreateserial -out MacRobertIntermediateCA.pem -days 3650 -sha256 -extfile Intermediate.cnf -extensions intermediate_ca</code></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Verify the Intermediate Certificate
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">openssl verify -CAfile MacRobertRootCA.pem MacRobertIntermediateCA.pem</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="server-certificate">Server Certificate</h4>
+<ul>
+  <li>Issued by the server on connection as part of the https protocol ‘handshake’.
+    <ul>
+      <li>Doesn’t matter if the server is behind a firewall, docker or direct. It’s part of the server conversation with the client.</li>
+    </ul>
+  </li>
+  <li>Create a Private Key for the Server
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">openssl genrsa -out weather.macrobert.home.key 2048</code></li>
+    </ul>
+  </li>
+  <li>Create a Signing Request
+    <ul>
+      <li>The common name (CN) should match the fully qualified domain name (FQDN) of your server</li>
+      <li><code class="language-plaintext highlighter-rouge">openssl req -new -key weather.macrobert.home.key -out weather.macrobert.home.csr</code></li>
+    </ul>
+  </li>
+  <li>Generate the Server Certificate
+    <ul>
+      <li>Create a configuration file (<code class="language-plaintext highlighter-rouge">weather.macrobert.home.cnf</code>) containing extra configurations for the certificate</li>
+    </ul>
+
+    <div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">authorityKeyIdentifier</span><span class="p">=</span><span class="s">keyid,issuer</span>
+<span class="py">basicConstraints</span><span class="p">=</span><span class="s">CA:FALSE</span>
+<span class="py">subjectAltName</span> <span class="p">=</span> <span class="s">@alt_names</span>
+<span class="py">keyUsage</span> <span class="p">=</span> <span class="s">digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment</span>
+<span class="py">extendedKeyUsage</span> <span class="p">=</span> <span class="s">serverAuth</span>
+  
+<span class="nn">[alt_names]</span>
+<span class="py">DNS.1</span> <span class="p">=</span> <span class="s">weather.macrobert.home</span>
+</code></pre></div>    </div>
+    <ul>
+      <li>Signed by the Intermediate CA
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">openssl x509 -req -in weather.macrobert.home.csr -CA MacRobertIntermediateCA.pem -CAkey MacRobertIntermediateCA.key -CAcreateserial -out weather.macrobert.home.crt -days 365 -sha256 -extfile weather.macrobert.home.cnf</code></li>
+          <li><strong>Important</strong> Note how the Server Certificate need only be signed using the private key of the Intermediate CA, but not the Root CA.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Verify the Server Certificate
+    <ul>
+      <li>Note that verification will require the full preceeding certificate chain composed of Intermediate and Root CA certificates
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">cat MacRobertIntermediateCA.pem MacRobertRootCA.pem &gt; CA_Chain.pem</code></li>
+        </ul>
+      </li>
+      <li>To verify with the certificate chain
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">openssl verify -CAfile CA_Chain.pem weather.macrobert.home.crt</code></li>
+        </ul>
+      </li>
+      <li>PFX File will be required by Asp Net Core based servers
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">openssl pkcs12 -export -out weather.macrobert.home.pfx -inkey weather.macrobert.home.key -in weather.macrobert.home.crt -certfile CA_Chain.pem</code></li>
+          <li>pfx file creation will involve supplying another password used to extract the combined contents of the pfx file.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Prior to the server certificate installation a DNS entry must be added to a DNS server running locally on the network corresponding to the DNS entry declared in the cnf file above.</li>
+</ul>
+
+<h3 id="certificate-deployment">Certificate Deployment</h3>
+<ul>
+  <li>Be sure to add the Root Certificate to the Root CA Certificate Store, and the Intermediate Certificate to the Intermediate CA Store.</li>
+  <li>It may be necessary to restart any web browsers to re-read the contents of the store.</li>
+</ul>
+
+<h3 id="server-certificate-installation-on-the-kestrel-web-server">Server Certificate Installation on the Kestrel Web Server</h3>
+<ul>
+  <li>Be sure to add the server address of weather.macrobert.home to the DNS Server. Following this addition web-browsers and dependent systems may also need to be restarted</li>
+  <li>Add the pfx file to the project.</li>
+  <li>
+    <p>Add the following JSON entry to <code class="language-plaintext highlighter-rouge">appsettings.json</code> adjusting your URL to suit:</p>
+
+    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"Kestrel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"Endpoints"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"Http"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"Url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8080"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"Https"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"Url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://weather.macrobert.home:8081"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"Certificate"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"Path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"weather.macrobert.home.pfx"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"Password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;pfx-password&gt;"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+  <li>Rather than supplying the pfx password to appsettings.json (and erroneously committing it to a source repo) the password can be supplied as an environment variable using a naming convention that maps to the Password configuration in the Kestrel block above.</li>
+  <li>An environment Variable with setting “Kestrel__Endpoints__Https__Certificate__Password=bogusPassword” - substitute the bogusPassword with your own.</li>
+  <li>Run the <code class="language-plaintext highlighter-rouge">Weather Server</code> . With Chrowme browser navigate to <code class="language-plaintext highlighter-rouge">https://weather.macrobert.home:8081/swagger/index.html</code> and examine the certicate for the site.
+    <ul>
+      <li><img src="/assets/internet_certificates/WeatherCertificateDetails.png" alt="Weather server signed by Intermediate CA" /></li>
+      <li>Server Certificate <code class="language-plaintext highlighter-rouge">weather.macrobert.home</code> is authenticated via the Intermediate CA</li>
+      <li><img src="/assets/internet_certificates/WeatherCertificateHierarchy.png" alt="Weather server signed by Intermediate CA" /></li>
+      <li>
+        <ul>
+          <li>Server Certificate <code class="language-plaintext highlighter-rouge">weather.macrobert.home</code> is authenticated via a chain of certificates to the CA Root</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>]]></content><author><name></name></author><category term="openssl," /><category term="rsa," /><category term="http," /><category term="https," /><category term="certificate," /><category term="security," /><category term="authentication," /><category term="client," /><category term="server," /><category term="trust" /><summary type="html"><![CDATA[Summary Internet Security is confusing. There is an overwhelming number of new concepts to explore and understand.]]></summary></entry><entry><title type="html">Generating new SSH Keys and adding to ssh-agent</title><link href="https://blog.macrobert.com/2023/07/11/Generating_New_SSH-Keys.html" rel="alternate" type="text/html" title="Generating new SSH Keys and adding to ssh-agent" /><published>2023-07-11T12:00:00+08:00</published><updated>2023-07-11T12:00:00+08:00</updated><id>https://blog.macrobert.com/2023/07/11/Generating_New_SSH-Keys</id><content type="html" xml:base="https://blog.macrobert.com/2023/07/11/Generating_New_SSH-Keys.html"><![CDATA[<p><a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">Link</a></p>
 
 <h2 id="summary">Summary</h2>
 
